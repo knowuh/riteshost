@@ -1,15 +1,18 @@
-#!/bin/env bash
-SRC_DIR=/usr/local/src
-BIN_DIR=/usr/local/bin
-sudo mkdir -p $SRC_DIR
-sudo chown -R $USER:users $SRC_DIR
-sudo chmod -R g+w $SRC_DIR
+#!/usr/bin/env bash
+BASE_DIR=~/rites_host
+cd $BASE_DIR
+source $BASE_DIR/setpaths.sh
+source $BASE_DIR/base.sh
 
+###########################################
 # install java from rpm:
+###########################################
 sudo setenforce 0
 sudo yum install java-1.6.0-openjdk java-1.6.0-openjdk-devel
 
-# install ant
+###########################################
+# ant from source java from rpm:
+###########################################
 ANT_VERSION=1.7.1
 ANT_TARBALL=apache-ant-$ANT_VERSION-bin.tar.gz
 ANT_DEST=$SRC_DIR/apache-ant-$ANT_VERSION

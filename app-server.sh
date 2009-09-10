@@ -1,15 +1,11 @@
-#!/bin/env bash
-cd ~
-sudo setenforce 0
-# mysql clents must be installed, with headers and libs:
-sudo yum install mysql mysql-dev
-
-# install apache and friends
-sudo yum install httpd httpd-devel mod_ssl mod_passenger rubygem-passenger
+#!/usr/bin/env bash
+BASE_DIR=~/rites_host
+cd $BASE_DIR
+source $BASE_DIR/mysql.sh
+source $BASE_DIR/ruby.sh
+source $BASE_DIR/apache.sh
+source $BASE_DIR/rails.sh
 
 
 # we probably need to pass some arguments here:
-sudo gem install mysql rake passenger 
-
-# sudo gem install rails
-# other gems should go here.
+sudo gem install rails mysql passenger 
