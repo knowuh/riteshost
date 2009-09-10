@@ -1,0 +1,7 @@
+{   
+  "chef": {
+    "server_fqdn": "discostu.concord.org",
+    "server_ssl_req": "/C=US/ST=MA/L=Concord/O=ConcordConsortium/OU=Dev/CN=discostu.concord.org/emailAddress=knowuh@gmail.com" 
+  }, 
+  "recipes": "chef::server" 
+}

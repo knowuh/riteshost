@@ -1,0 +1,12 @@
+{
+  "chef": {
+    "path": "/srv/chef",
+    "server_fqdn": "chef.example.com",
+    "server_ssl_req": "/C=US/ST=Several/L=Locality/O=Example/OU=Operations/CN=chef.example.com/emailAddress=demo@example.com"
+  },
+  "packages": {
+    "dist_only": true
+  },
+  "recipes": "chef::server"
+}
+
