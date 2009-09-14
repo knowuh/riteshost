@@ -1,6 +1,20 @@
-#IMPORTANT!!!! THIS SCRIPT WILL ERASE everything in $SAKAI_TOMCAT_DIR
-#possibly change these if you have an urge.
-TOMCAT_DEST=/usr/local/tomcat
+#!/usr/bin/env bash
+BASE_DIR=~/rites_host
+cd $BASE_DIR
+source $BASE_DIR/mysql.sh
+source $BASE_DIR/apache.sh
+source $BASE_DIR/java.sh
+
+# where tomcat will go
+TOMCAT_DEST=/web/tomcat
+sudo mkdir -p $TOMCAT_DEST
+sudo chown -R $USER:users $TOMCAT_DEST
+
+# where sakai source will go
+SAKAI_WORKING_DIR=/web/src/sakai
+sudo mkdir -p $SAKAI_WORKING_DIR
+sudo chown -R $USER:users $SAKAI_WORKING_DIR
+
 TOMCAT_SYMLINK=$TOMCAT_DEST/tomcat
 TC_5_5_27=apache-tomcat-5.5.27
 TC_5_5_25=apache-tomcat-5.5.25
@@ -10,22 +24,19 @@ SAKAI_TOMCAT_ARCHIVE=$TC_SAKAI_VERSION.tar.gz
 SAKAI_TOMCAT=$TOMCAT_DEST/$TC_SAKAI_VERSION
 
 # and probably dont want to change these...
-THIS_DIR=`pwd`
-echo working in $THIS_DIR
+cd $SAKAI_WORKING_DIR
 
-RSMART_SAKAI_SRC=$THIS_DIR/rinet25
+RSMART_SAKAI_SRC=$SAKAI_WORKING_DIR/rinet25
 SAKAI_DIR=$TOMCAT_SYMLINK/sakai
 SAKAI_FILES=$TOMCAT_DEST/sakai-files
 
-TOMCAT_ARCHIVE=$THIS_DIR/apache-tomcat-5.5.27.zip
-RSMART_SAKAI_ARCHIVE=$THIS_DIR/rinet25.tar.gz 
-MYSQL_ADAPTOR_ARCHIVE=$THIS_DIR/mysql-connector-java-5.1.8.tar.gz
-DATA_BASE_ARCHIVE=$THIS_DIR/rinet25_nightly.sql.gz
+TOMCAT_ARCHIVE=$SAKAI_WORKING_DIR/apache-tomcat-5.5.27.zip
+RSMART_SAKAI_ARCHIVE=$SAKAI_WORKING_DIR/rinet25.tar.gz 
+MYSQL_ADAPTOR_ARCHIVE=$SAKAI_WORKING_DIR/mysql-connector-java-5.1.8.tar.gz
+DATA_BASE_ARCHIVE=$SAKAI_WORKING_DIR/rinet25_nightly.sql.gz
 
 SCP_SRC=terra.concord.org:/export/shared/Projects/RITES/src_archives/*.gz 
 
-# build the tomcat directory, unless it already exists:
-mkdir -p $TOMCAT_DEST
 
 # copy all the archives from terra if the RSMART_SAKAI_ARCHIVE is missing
 if [ -e $RSMART_SAKAI_ARCHIVE ]; then
@@ -66,8 +77,7 @@ ln -s $SAKAI_TOMCAT $TOMCAT_SYMLINK
 
 
 # copy the database driver
-cp $THIS_DIR/mysql-connector-java-5.1.8/mysql-connector-java-5.1.8-bin.jar $TOMCAT_SYMLINK/common/lib/
-
+cp $SAKAI_WORKING_DIR/mysql-connector-java-5.1.8/mysql-connector-java-5.1.8-bin.jar $TOMCAT_SYMLINK/common/lib/
 
 # make saki directories in tomcat-land
 mkdir -p $SAKAI_DIR
@@ -82,6 +92,9 @@ cp $RSMART_SAKAI_SRC/reference/demo/tomcat/bin/setenv.sh $TOMCAT_SYMLINK/bin/
 cp $RSMART_SAKAI_SRC/reference/demo/index.html $TOMCAT_SYMLINK/webapps/ROOT/
 cp $RSMART_SAKAI_SRC/reference/library/src/webapp/icon/favicon.ico  $TOMCAT_SYMLINK/webapps/ROOT/
 cp $RSMART_SAKAI_SRC/reference/demo/tomcat/conf/server.xml $TOMCAT_SYMLINK/conf/server.xml
+
+# remove this source file, as per http://jira.sakaiproject.org/browse/SAK-13126
+find $RSMART_SAKAI_SRC -name DataSourceWrapperAutoCommit.java | xargs rm
 
 # make sure executibles are
 chmod 755 $TOMCAT_SYMLINK/bin/*.sh
@@ -111,7 +124,7 @@ export MAVEN_OPTS="-Xmx384m -XX:PermSize=48m"
 mvn -Dmaven.test.skip=true -Dmaven.tomcat.home=$TOMCAT_SYMLINK clean install sakai:deploy
 
 # copy the users file over
-cp $THIS_DIR/tomcat-users.xml $TOMCAT_SYMLINK/conf/tomcat-users.xml 
+cp $BASE_DIR/tomcat-users.xml $TOMCAT_SYMLINK/conf/tomcat-users.xml 
 
 # run the server,
 export JAVA_OPTS="-server -Xms768m -Xmx768m -XX:PermSize=128m -XX:MaxPermSize=256m -XX:NewSize=192m -XX:MaxNewSize=384m"
