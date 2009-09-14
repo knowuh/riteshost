@@ -5,12 +5,18 @@ source $BASE_DIR/git.sh
 PREFIX_DIR=/usr/local
 RUBY_DEST=$PREFIX_DIR/bin/ruby
 
+
+#######################################
+# remove ruby yum packge if it is installed
+#######################################
+sudo yum -y remove ruby
+sudo yum -y remove ruby-libs.i386 
+#######################################
+# build ruby
+#######################################
 if [ -e $RUBY_DEST ]; then
   echo "we already have $RUBY_DEST, delete it to force a build"
 else
-  #######################################
-  # build ruby
-  #######################################
   cd $SRC_DIR
   if [ -e $SRC_DIR/matzruby.git ]; then
     echo "we already have $SRC_DIR/matzruby.git skipping clone step, delete it to force download"
@@ -18,7 +24,9 @@ else
     git clone git://github.com/stepheneb/matzruby.git matzruby-git
   fi
   cd matzruby-git/
-  git co -b 1_8_6_383_fix_logger
+  git co remotes/origin/1_8_6_383_fix_logger -b fix_logger
+  # FIXME:  We should not need to pull this file in, it should be fixed in the repo
+  scp moleman.concord.org:/home/sbannasch/src/matzruby-git/lib/logger.rb ./lib/logger.rb
   autoconf && ./configure --prefix=$PREFIX_DIR
   make clean && make
   sudo make install
@@ -47,4 +55,11 @@ else
   sudo gem sources -a http://gems.github.com
   sudo gem sources -a http://gems.opscode.com
 fi
+
+#######################################
+# install some default gems
+#######################################
+
+sudo gem install --no-ri --no-rdoc  rake
+
 
