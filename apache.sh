@@ -5,4 +5,4 @@ source $BASE_DIR/setpaths.sh
 source $BASE_DIR/base.sh
 
 # install apache and friends
-sudo yum install httpd httpd-devel mod_ssl 
+sudo yum install -y httpd httpd-devel mod_ssl 
