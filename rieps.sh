@@ -3,7 +3,8 @@ BASE_DIR=~/rites_host
 cd $BASE_DIR
 source $BASE_DIR/mysql.sh
 source $BASE_DIR/apache.sh
-source $BASE_DIR/java.sh
+source $BASE_DIR/java1_5.sh
+
 
 # where tomcat will go
 TOMCAT_DEST=/web/tomcat
