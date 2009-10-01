@@ -40,5 +40,5 @@ And that's really all there is to it....
 
 h2. Todo:
 
-* Probably be better to convert this to a rake task.
-* learn how to to do code block formatting in textile. (grrr...)
+* Convert this to a rake task.
+* Edit and use the template files (eg etc/httpd/conf/) NOT USED NOW.
