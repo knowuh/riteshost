@@ -5,7 +5,7 @@ source $BASE_DIR/setpaths.sh
 source $BASE_DIR/base.sh
 
 ###########################################
-# install java from rpm:
+# install java 1.6 from rpm:
 ###########################################
 sudo setenforce 0
 sudo yum install -y java-1.6.0-openjdk java-1.6.0-openjdk-devel
@@ -16,8 +16,11 @@ sudo yum install -y java-1.6.0-openjdk java-1.6.0-openjdk-devel
 ###########################################
 JAVA_HOME=/usr/lib/jvm/jre/
 export JAVA_HOME
+
+### TODO: THIS DOES NOT WORK! 
+### (sudo only wants one command, so >> doesn't work here.)
 if grep JAVA_HOME /etc/skel/.bash_profile ; then 
-  sudo echo "JAVA_HOME already set in .bash_profile"
+  echo "JAVA_HOME already set in .bash_profile"
 else
   sudo echo "JAVA_HOME=$JAVA_HOME" >> /etc/skel/.bash_profile;
   sudo echo "export JAVA_HOME" >> /etc/skel/.bash_profile;
