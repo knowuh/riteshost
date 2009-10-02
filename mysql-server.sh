@@ -12,13 +12,21 @@ sudo /etc/init.d/mysqld stop
 sudo yum remove -y mysql-server
 sudo yum install -y mysql-server
 
+
+DATESTR=`/bin/date +"%F_%H_%M"`
+
+###################################################
+# Patch my.cnf with patch-file
+###################################################
+mkdir -p $HOME/backups
+cp /etc/my.cnf $HOME/backups/my.cnf_${DATESTR}
+sudo patch ${BASE_DIR}/etc/my.cnf ${BASE_DIR}/etc/my.cnf.patch -o /etc/my.cnf
+
 ###################################################
 # use the /data direcotry  (warning: destructive!!)
 # only has to be done once really...
 # http://www.halfzerocan.com/howto-move-your-mysql-database-directory-to-a-second-hard-drive/|
 ###################################################
-
-DATESTR=`/bin/date +"%F_%H_%M"`
 DST_DIR=/data/
 DST_MYSQL_DATA_DIR=/${DST_DIR}/mysqldata
 
