@@ -13,6 +13,32 @@ sudo yum remove -y mysql-server
 sudo yum install -y mysql-server
 
 ###################################################
+# use the /data direcotry  (warning: destructive!!)
+# only has to be done once really...
+# http://www.halfzerocan.com/howto-move-your-mysql-database-directory-to-a-second-hard-drive/|
+###################################################
+
+DATESTR=`/bin/date +"%F_%H_%M"`
+DST_DIR=/data/
+DST_MYSQL_DATA_DIR=/${DST_DIR}/mysqldata
+
+if [ -e $DST_MYSQL_DATA_DIR]; then
+  echo "mysql data directory $DST_MYSQL_DATA_DIR exists: "
+  echo "skipping this step.  Move $DST_MYSQL_DATA_DIR to force change"
+  echo "creating backup file ${DST_DIR}/db_backup_${DATESTR}.tar.gz incase you want to delete it"
+  tar -cvzf ${DST_DIR}/db_backup_${DATESTR}.tar.gz $DST_MYSQL_DATA_DIR
+else
+  SRC_MYSQL_DATA_DIR=/var/lib/mysql
+  sudo mkdir -p $MYSQL_DATA_DIR
+  cd $DATA_DIR
+  sudo cp -R ${SRC_MYSQL_DATA_DIR}/* $DST_MYSQL_DATA_DIR
+  sudo chown -R mysql.mysql $DST_MYSQL_DATA_DIR
+  sudo mv $SRC_MYSQL_DATA_DIR ${SRC_MYSQL_DATA_DIR}_backup_${DATESTR}
+  sudo ln -s ${DST_MYSQL_DATA_DIR}/ $SRC_MYSQL_DATA_DIR
+  sudo chown mysql.mysql $SRC_MYSQL_DATA_DIR
+fi
+
+###################################################
 # start the MYSQL SERVER
 ###################################################
 sudo /etc/init.d/mysqld start
@@ -59,28 +85,4 @@ mysqladmin -f -u root create rites_pro
 
 source $BASE_DIR/db-user.sh sakai $SAKAI_USER $SAKAI_PASS
 source $BASE_DIR/db-user.sh rites $RITES_USER $RITES_PASS
-
-# mysqladmin -f -u root drop sds_test
-# mysqladmin -f -u root drop sds_dev
-# mysqladmin -f -u root drop sds_pro
-# 
-# mysqladmin -f -u root drop portal_test
-# mysqladmin -f -u root drop portal_dev
-# mysqladmin -f -u root drop portal_pro
-
-# mysqladmin -f -u root create sds_test
-# mysqladmin -f -u root create sds_dev
-# mysqladmin -f -u root create sds_pro
-# 
-# mysqladmin -f -u root create portal_test
-# mysqladmin -f -u root create portal_dev
-# mysqladmin -f -u root create portal_pro
-
-# source $BASE_DIR/db-user.sh sds sSdDsS sds
-# source $BASE_DIR/db-user.sh portal p0rt0l portal
-
-
-
-
-
 
