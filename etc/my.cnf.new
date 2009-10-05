@@ -4,12 +4,17 @@ socket=/var/lib/mysql/mysql.sock
 user=mysql
 port = 3306
 bind-address=63.138.119.220
+max_allowed_packet=16M 
 # Default to using old password format for compatibility with mysql 3.x
 # clients (those using the mysqlclient10 compatibility package).
 old_passwords=1
-max_allowed_packet=16M 
+default-character-set=utf8 
+character-set-server = utf8 
+
+[mysql]
+default-character-set=utf8 
+character-set-server = utf8 
 
 [mysqld_safe]
 log-error=/var/log/mysqld.log
 pid-file=/var/run/mysqld/mysqld.pid
-
