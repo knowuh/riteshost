@@ -2,7 +2,7 @@
 USER=ARGV.shift
 PASSWORD=ARGV.shift
 DB_NAMES=ARGV
-DEBUG=true
+DEBUG=false
 HOSTS = %w| %.concord.org 63.138.119.%  localhost 127.0.0.1 |
   
 puts "User: #{USER}      Pass: #{PASSWORD}       Databases:  #{DB_NAMES.join(", ")}"
