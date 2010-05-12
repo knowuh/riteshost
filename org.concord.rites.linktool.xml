@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+
+<registration>
+
+  <tool
+    id="org.concord.rites.linktool"
+    title="Rites Investigation"
+    description="Launch the Rites Investigation">
+    
+    <configuration name="url" value="http://rites.dev.concord.org/linktool" />
+    <configuration name="height" value="1000px" />
+    <category name="course" />
+    <category name="project" />
+    <keyword name="linktool" />
+  </tool>
+</registration>

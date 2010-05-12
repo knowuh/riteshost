@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<registration>
+
+   <tool title="Link Tool" description="Use Link tool to add tools built in other programming languages." id="sakai.rutgers.linktool">
+
+      <configuration name="url" value="http://www.rsmart.com/perl-bin/linktool.pl"/>
+      <configuration name="height" value="600px"/>
+
+      <keyword name="linktool"/>
+
+
+      <configuration name="functions.require"/>
+
+
+      
+      
+   <category name="aw"/>
+<category name="myworkspacetadmin"/>
+</tool>
+
+</registration>
