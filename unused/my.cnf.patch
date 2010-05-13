@@ -5,7 +5,7 @@
 > character-set-server = utf8 
 > 
 > [mysql]
-> default-character-set=utf8 
+> #default-character-set=utf8 disabled feature now. see http://bit.ly/bPsaFf 
 > character-set-server = utf8 
 14d20
 < 

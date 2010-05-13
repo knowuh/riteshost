@@ -14,13 +14,16 @@ sudo yum install -y mysql-server
 
 
 DATESTR=`/bin/date +"%F_%H_%M"`
-
+IP=`ifconfig  | grep 'inet addr:'| grep -v '127.0.0.1' | cut -d: -f2 | awk '{ print $1}'`
 ###################################################
-# Patch my.cnf with patch-file
+# copy my.cnf
 ###################################################
 mkdir -p $HOME/backups
 cp /etc/my.cnf $HOME/backups/my.cnf_${DATESTR}
-sudo patch ${BASE_DIR}/etc/my.cnf ${BASE_DIR}/etc/my.cnf.patch -o /etc/my.cnf
+cat ${BASE_DIR}/etc/my.cnf | sed -e "s/IP_ADDRESS/${IP}/" > ${BASE_DIR}/etc/my.cnf.new
+sudo cp ${BASE_DIR}/etc/my.cnf.new /etc/my.cnf
+
+
 
 ###################################################
 # use the /data direcotry  (warning: destructive!!)
@@ -28,16 +31,16 @@ sudo patch ${BASE_DIR}/etc/my.cnf ${BASE_DIR}/etc/my.cnf.patch -o /etc/my.cnf
 # http://www.halfzerocan.com/howto-move-your-mysql-database-directory-to-a-second-hard-drive/|
 ###################################################
 DST_DIR=/data/
-DST_MYSQL_DATA_DIR=/${DST_DIR}/mysqldata
+DST_MYSQL_DATA_DIR=${DST_DIR}mysqldata
 
-if [ -e $DST_MYSQL_DATA_DIR]; then
+if [ -e $DST_MYSQL_DATA_DIR ]; then
   echo "mysql data directory $DST_MYSQL_DATA_DIR exists: "
   echo "skipping this step.  Move $DST_MYSQL_DATA_DIR to force change"
   echo "creating backup file ${DST_DIR}/db_backup_${DATESTR}.tar.gz incase you want to delete it"
-  tar -cvzf ${DST_DIR}/db_backup_${DATESTR}.tar.gz $DST_MYSQL_DATA_DIR
+  sudo tar -cvzf ${DST_DIR}/db_backup_${DATESTR}.tar.gz $DST_MYSQL_DATA_DIR
 else
   SRC_MYSQL_DATA_DIR=/var/lib/mysql
-  sudo mkdir -p $MYSQL_DATA_DIR
+  sudo mkdir -p $DST_MYSQL_DATA_DIR
   cd $DATA_DIR
   sudo cp -R ${SRC_MYSQL_DATA_DIR}/* $DST_MYSQL_DATA_DIR
   sudo chown -R mysql.mysql $DST_MYSQL_DATA_DIR
