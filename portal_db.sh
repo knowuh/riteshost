@@ -24,15 +24,15 @@ fi
 ###################################################
 # CREATE TABLES:
 ###################################################
-# mysqladmin -f -u root drop mystery4
-# mysqladmin -f -u root drop ccportal
-# mysqladmin -f -u root drop sunflower
-# mysqladmin -f -u root drop rails
-# 
-# mysqladmin -f -u root create mystery4
-# mysqladmin -f -u root create ccportal
-# mysqladmin -f -u root create sunflower
-# mysqladmin -f -u root create rails
+mysqladmin -f -u root drop mystery4
+mysqladmin -f -u root drop ccportal
+mysqladmin -f -u root drop sunflower
+mysqladmin -f -u root drop rails
+
+mysqladmin -f -u root create mystery4
+mysqladmin -f -u root create ccportal
+mysqladmin -f -u root create sunflower
+mysqladmin -f -u root create rails
 
 $BASE_DIR/db-user.rb $PORTAL_USER $PORTAL_PASS mystery4 ccportal sunflower
 $BASE_DIR/db-user.rb $RAILS_USER $RAILS_PASS rails
