@@ -15,3 +15,4 @@ sudo yum makecache
 #######################################
 sudo yum install -y gcc curl-devel libxslt-devel expat-devel sqlite-devel readline-devel libtermcap-devel libxml2-devel
 sudo yum install -y bison autoconf asciidoc xmlto --enablerepo=rpmforge
+sudo yum install -y subversion
