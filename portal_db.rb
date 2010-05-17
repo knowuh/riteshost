@@ -37,16 +37,23 @@ def get_database_props
 end
 
 def create_database(db_name)
-  %x[echo mysqladmin -f -u root drop #{db_name}]
-  %x[echo mysqladmin -f -u root create #{db_name}]
+  %x[mysqladmin -f -u root drop #{db_name}]
+  %x[mysqladmin -f -u root create #{db_name}]
 end
 
 get_database_props
 db_names = %w[mystery4 ccportal sunflower rails]
 db_names.each { |db_name| create_database(db_name) }
 
+db_add_user(@credentials['ccportal'][:username],@credentials['ccportal'][:password], %w[ mystery4 ccportal sunflower])
+db_add_user(@credentials['rails'][:username],@credentials['rails'][:password], %w[ rails ])
 
-db_add_user(@credentials['ccportal'][:username],@credentials['ccportal'][:pass], %w[ mystery4 ccportal sunflower])
-db_add_user(@credentials['rails'][:username],@credentials['rails'][:pass], %w[ rails ])
-#$BASE_DIR/db-user.rb $PORTAL_USER $PORTAL_PASS mystery4 ccportal sunflower
-#$BASE_DIR/db-user.rb $RAILS_USER $RAILS_PASS rails
+base_db_file_url = "http://dev.dev.concord.org/database/"
+database_resources = {
+  'mystery4' => "mystery.sql.gz",
+  'ccportal' => "portal.sql.gz",
+  'sunflower' => "fleurdesoleil.sql.gz"
+}
+%w[ mystery4 ccportal sunflower rails].each do |db_name|
+  %x[curl #{base_db_file_url}#{database_resources[db_name]} | gunzip | mysql -u root #{db_name}]
+end

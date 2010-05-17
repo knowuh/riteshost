@@ -61,7 +61,7 @@ fi
 #######################################
 
 sudo gem install --no-ri --no-rdoc  rake
-
+sudo gem install --no-ri --no-rdoc  highline
 # TODO: Might be really useful to install RVM sometime....
 
 

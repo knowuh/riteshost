@@ -182,7 +182,7 @@ CREATE TABLE `cc_print_subscriptions` (
   `fecha2` varchar(255) NOT NULL default '',
   `prevpage` varchar(255) NOT NULL default '',
   `subtype` varchar(255) NOT NULL default '',
-  PRIMARY KEY  (`id`,`id`)
+  PRIMARY KEY  (`id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=7379 DEFAULT CHARSET=latin1 COMMENT='transfer table';
 SET character_set_client = @saved_cs_client;
 

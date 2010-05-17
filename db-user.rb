@@ -7,7 +7,7 @@
 DEBUG=false
 HOSTS = %w| %.concord.org 63.138.119.%  localhost 127.0.0.1 |
   
-#puts "User: #{USER}      Pass: #{PASSWORD}       Databases:  #{DB_NAMES.join(", ")}"
+# puts "User: #{USER}      Pass: #{PASSWORD}       Databases:  #{DB_NAMES.join(", ")}"
 
 def run(command) 
   if DEBUG  
@@ -17,7 +17,8 @@ def run(command)
   end
 end
 
-def db_add_user(username,password,*dbnames)
+def db_add_user(username,password, dbnames)
+  puts "User: #{username}      Pass: #{password}       Databases:  #{dbnames.join(", ")}"
   HOSTS.each do |host|
     run "mysql mysql -u root -e \"drop user '#{username}'@'#{host}';\""
     run "mysql mysql -u root -e \"create user '#{username}'@'#{host}' identified by '#{password}';\""
