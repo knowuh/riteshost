@@ -3,6 +3,7 @@
 #######################################
 # make the shared source tree if needed
 #######################################
+BASE_DIR=~/rites_host
 PREFIX_DIR=/usr/local
 SRC_DIR=$PREFIX_DIR/src
 BIN_DIR=$PREFIX_DIR/bin
