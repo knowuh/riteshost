@@ -1,13 +1,17 @@
 #!/usr/bin/env bash
-cd ~/rites_host
 source setpaths.sh
-
+RPM_DIR=$BASE_DIR/local_rpms
 #######################################
 # setup yum repos
 #######################################
 sudo setenforce 0
-sudo rpm -Uvh http://download.fedora.redhat.com/pub/epel/5/i386/epel-release-5-3.noarch.rpm
-sudo rpm -Uvh http://download.elff.bravenet.com/5/i386/elff-release-5-3.noarch.rpm
+mkdir -p $RPM_DIR
+cd $RPM_DIR
+wget http://download.elff.bravenet.com/5/i386/elff-release-5-3.noarch.rpm
+sudo rpm -Uvh elff-release-5-3.noarch.rpm
+
+wget http://packages.sw.be/rpmforge-release/rpmforge-release-0.5.1-1.el5.rf.i386.rpm
+sudo rpm -Uvh rpmforge-release-0.5.1-1.el5.rf.i386.rpm
 sudo yum makecache
 
 #######################################
