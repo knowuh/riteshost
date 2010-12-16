@@ -18,10 +18,10 @@ if [ -e $RUBY_DEST ]; then
   echo "we already have $RUBY_DEST, delete it to force a build"
 else
   cd $SRC_DIR
-  if [ -e $SRC_DIR/matzruby.git ]; then
-    echo "we already have $SRC_DIR/matzruby.git skipping clone step, delete it to force download"
+  if [ -e $SRC_DIR/matzruby-git ]; then
+    echo "we already have $SRC_DIR/matzruby-git skipping clone step, delete it to force download"
   else
-    git clone https://github.com/rubyspec/matzruby.git $SRC_DIR/matzruby-git
+    git clone https://github.com/ruby/ruby.git $SRC_DIR/matzruby-git
   fi
   cd $SRC_DIR/matzruby-git
   git co $RUBY_VERSION
